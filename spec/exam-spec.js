@@ -69,9 +69,50 @@ describe("Curry function test", function(){
     let callbackWithOneArg = curriedCallback(string1);
     let fullCallback = callbackWithOneArg(string2);
     let finalString = someCallback(string1, string2);
-    it("Calling curry on function without arguments should return ", function(){
+    it("Should show that callback called with one argument returns a function", function(){
         expect(typeof callbackWithOneArg).toBe("function");
         expect(callbackWithOneArg).not.toBe(finalString);
         expect(fullCallback).toBe(finalString);
+    });
+});
+
+describe("Simple compose test", function(){
+    let func1 = (num) => {
+        return num / 7;
+    };
+    let func2 = (num) => {
+        return num + 10;
+    };
+    let firstCompose = compose_(func1, func2);
+    let secondCompose = compose_(func2, func1);
+    let firstAnswer = firstCompose(7);
+    let secondAnswer = secondCompose(7);
+    it("Should show simple compose evaluates differently depending on argument order.", function(){
+        expect(firstAnswer).not.toBe(secondAnswer);
+    });
+});
+
+describe("Map function test", function(){
+    let stringOnlyFunction = (someString) => { return "***" + someString.toUpperCase() + "***"};
+    let nowItWorksOnArrays = map(stringOnlyFunction);
+    let pokemonReference = ["team", "rocket's", "blasting", "off", "again"];
+    let justicePrevails = nowItWorksOnArrays(pokemonReference);
+    it("Should show function is applied to every element in array", function(){
+        expect(justicePrevails).not.toBe(false);
+        //Note that the type of justice prevails may not be reported as an array
+        expect(typeof justicePrevails).toBe("object");
+        expect(justicePrevails[0]).toBe("***TEAM***");
+    });
+});
+
+describe("Filter function test", function(){
+    let someArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    let onlyEvens = [0, 2, 4, 6, 8];
+    let someCallback = (i) => { return i % 2 == 0};
+    let filterCriteria = filter(someCallback);
+    let filteredArray = filterCriteria(someArray);
+    it("Should return an array with only even numbers", function(){
+        //Use to Equal to check for deep equality, i.e. check the actual values in array.
+        expect(filteredArray).toEqual(onlyEvens);
     });
 });
