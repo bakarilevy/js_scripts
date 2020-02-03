@@ -24,7 +24,6 @@ const compose = (...fns) => (...args) => fns.reduceRight((res, fn) => [fn.call(n
 function memoize(fn) {
     let memo = {};
     let slice = Array.prototype.slice;
-    console.log(memo);
     return function() {
         var args = slice.call(arguments);
         if(args in memo) {
@@ -145,6 +144,5 @@ module.exports = {
     replace,
     filter,
     map,
-    prop,
-
+    prop
 }
